@@ -36,4 +36,4 @@ jobs:
             -consoleLog -nosplash -nosave \
             -data "$RUNNER_TEMP/knime_batch_ws" \
             -application org.knime.product.KNIME_BATCH_APPLICATION \
-            -workflowFile "$GITHUB_WORKSPACE/ci_demo_workflow/dev_deployement.knwf"
+            -workflowFile="$GITHUB_WORKSPACE/ci_demo_workflow/dev_deployement.knwf"
