@@ -35,4 +35,4 @@ jobs:
           "$KNIME_EXEC" \
             -nosplash -nosave \
             -application org.knime.product.KNIME_BATCH_APPLICATION \
-            -workflowDir="$GITHUB_WORKSPACE/knime_ci_cd_test"
+            -workflowDir="$GITHUB_WORKSPACE/ci_demo_workflow"
