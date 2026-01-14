@@ -10,3 +10,6 @@ data/
 output/
 cache/
 tables/
+# KNIME workflow locks (must not be committed)
+**/.knimeLock
+**/.lock

@@ -30,9 +30,17 @@ jobs:
       # 4️⃣ Run workflow (CI happens HERE)
       - name: Run KNIME workflow
         run: |
+          WF_DIR="$GITHUB_WORKSPACE/ci_demo_workflow"
+
+          # 🔓 Remove stale KNIME lock files if they exist
+          find "$WF_DIR" -maxdepth 2 -type f \( -name ".knimeLock" -o -name ".lock" \) -print -delete || true
+
+          # Optional: show what's inside the workflow dir (debug)
+          ls -la "$WF_DIR"
+
           KNIME_EXEC=$(find knime -name knime -type f | head -n 1)
 
           "$KNIME_EXEC" \
             -nosplash -nosave \
             -application org.knime.product.KNIME_BATCH_APPLICATION \
-            -workflowDir="$GITHUB_WORKSPACE/ci_demo_workflow"
+            -workflowDir "$WF_DIR"
