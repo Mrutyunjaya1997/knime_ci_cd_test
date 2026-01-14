@@ -33,7 +33,7 @@ jobs:
           KNIME_EXEC=$(find knime -name knime -type f | head -n 1)
 
           "$KNIME_EXEC" \
-            -consoleLog -nosplash -nosave 
-            -data "%TEMP%\knime_batch_ws" 
-            -application org.knime.product.KNIME_BATCH_APPLICATION 
-            -workflowFile="$GITHUB_WORKSPACE\ci_demo_workflow\dev_deployement.knwf"
+            -consoleLog -nosplash -nosave \
+            -data "$RUNNER_TEMP/knime_batch_ws" \
+            -application org.knime.product.KNIME_BATCH_APPLICATION \
+            -workflowFile "$GITHUB_WORKSPACE/ci_demo_workflow/dev_deployement.knwf"
