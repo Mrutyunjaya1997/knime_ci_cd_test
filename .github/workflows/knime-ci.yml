@@ -30,13 +30,32 @@ jobs:
       # 4️⃣ Run workflow (CI happens HERE)
       - name: Run KNIME workflow
         run: |
+            set -e
             KNIME_EXEC=$(find knime -name knime -type f | head -n 1)
             WF_FILE="$GITHUB_WORKSPACE/ci_demo_workflow/dev_deployement.knwf"
 
-            echo "KNIME_EXEC=$KNIME_EXEC"
-            echo "WF_FILE=$WF_FILE"
+            echo "Using KNIME: $KNIME_EXEC"
+            echo "Workflow file: $WF_FILE"
             ls -la "$GITHUB_WORKSPACE/ci_demo_workflow"
 
-            "$KNIME_EXEC" -nosplash -nosave -application org.knime.product.KNIME_BATCH_APPLICATION -workflowFile "$WF_FILE"
+            # Try workflowFile first
+            if "$KNIME_EXEC" -nosplash -nosave -application org.knime.product.KNIME_BATCH_APPLICATION -workflowFile "$WF_FILE"; then
+            echo "Ran with -workflowFile"
+            exit 0
+            fi
+
+            # Fallbacks (only if the first fails)
+            if "$KNIME_EXEC" -nosplash -nosave -application org.knime.product.KNIME_BATCH_APPLICATION -workflow "$WF_FILE"; then
+            echo "Ran with -workflow"
+            exit 0
+            fi
+
+            if "$KNIME_EXEC" -nosplash -nosave -application org.knime.product.KNIME_BATCH_APPLICATION -workflowPath "$WF_FILE"; then
+            echo "Ran with -workflowPath"
+            exit 0
+            fi
+
+            echo "All workflow flags failed."
+            exit 1
 
 
